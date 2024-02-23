@@ -3,6 +3,12 @@ import Api from '../services/Api';
 import { Link } from 'react-router-dom';
 import Search from './Search';
 
+/**
+ * List component displays a list of entries fetched from an API.
+ * It provides a search functionality to filter the entries.
+ * @param {Function} updateEntries - A function to trigger an update of entries.
+ * @returns {JSX.Element} - The List component JSX
+ */
 const List = ({ updateEntries }) => {
 	const [entries, setEntries] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -10,6 +16,7 @@ const List = ({ updateEntries }) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [filteredEntries, setFilteredEntries] = useState([]);
 
+	// Effect hook to fetch entries from API when updateEntries changes
 	useEffect(() => {
 		const fetchEntries = async () => {
 			try {
@@ -29,6 +36,7 @@ const List = ({ updateEntries }) => {
 		};
 	}, [updateEntries]); // Re-run effect when updateEntries changes
 
+	// Effect hook to filter entries based on search query
 	useEffect(() => {
 		const filtered = entries.filter(
 			(entry) =>
@@ -41,10 +49,12 @@ const List = ({ updateEntries }) => {
 		setFilteredEntries(filtered);
 	}, [entries, searchQuery]);
 
+	// Handler function to search an entry
 	const handleSearch = (query) => {
 		setSearchQuery(query);
 	};
 
+	// Handler function to delete an entry
 	const handleDeleteEntry = async (entryId) => {
 		try {
 			await Api.deleteEntry(entryId);
@@ -53,7 +63,7 @@ const List = ({ updateEntries }) => {
 			setError(error.message);
 		}
 	};
-
+	// Render component JSX
 	return (
 		<div className="flex flex-col">
 			<Search onSearch={handleSearch} />

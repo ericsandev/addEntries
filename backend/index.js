@@ -5,7 +5,7 @@ const { Pool } = require('pg');
 const app = express();
 const port = 3001;
 
-// Configuración de la conexión a la base de datos PostgreSQL
+// Configuring the connection to the PostgreSQL database
 const pool = new Pool({
 	user: 'postgres',
 	host: 'p4b-1.c92a60umwufn.us-east-2.rds.amazonaws.com',
@@ -14,7 +14,7 @@ const pool = new Pool({
 	port: 5432,
 });
 
-// Middleware para permitir solicitudes CORS desde http://localhost:3000
+// Middleware to allow CORS requests from http://localhost:3000
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -35,6 +35,7 @@ pool.connect((err) => {
 
 app.use(bodyParser.json());
 
+// Method to set the endpoint to get all data
 app.get('/api/data', (req, res) => {
 	const sql = 'SELECT * FROM dbo.blog';
 	pool.query(sql, (err, result) => {
@@ -46,7 +47,7 @@ app.get('/api/data', (req, res) => {
 		}
 	});
 });
-
+// Method to set the endpoint to get unique data
 app.get('/entries/:entryId', (req, res) => {
 	const entryId = req.params.entryId;
 	const sql = 'SELECT * FROM dbo.blog WHERE id = $1';
@@ -63,7 +64,7 @@ app.get('/entries/:entryId', (req, res) => {
 		}
 	});
 });
-
+// Method to set the endpoint to post
 app.post('/api/post', (req, res) => {
 	const { title, author, content, publication_date } = req.body;
 	const sql = `INSERT INTO dbo.blog (title, author, content, created) VALUES ($1, $2, $3, $4) RETURNING id`;
@@ -80,7 +81,7 @@ app.post('/api/post', (req, res) => {
 		}
 	});
 });
-
+// Method to set the endpoint to delete
 app.delete('/api/post/:id', (req, res) => {
 	const postId = req.params.id;
 	const sql = 'DELETE FROM dbo.blog WHERE id = $1';

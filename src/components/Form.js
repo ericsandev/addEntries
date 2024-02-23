@@ -2,15 +2,25 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Api from '../services/Api';
 
+/**
+ * Form Component - Allows users to add new entries.
+ * @param {Object} props - Component props
+ * @param {Function} props.onSubmit - Callback function invoked after successfully submitting the form
+ * @returns {JSX.Element} Form component UI
+ */
 const Form = ({ onSubmit }) => {
 	const [title, setTitle] = useState('');
 	const [author, setAuthor] = useState('');
 	const [content, setContent] = useState('');
-	const [created, setCreated] = useState(formatDate(new Date())); // Parsear la fecha actual al formato deseado
+	const [created, setCreated] = useState(formatDate(new Date()));
 	const [errorMessage, setErrorMessage] = useState('');
 	const navigate = useNavigate();
 
-	// Función para formatear la fecha al formato "DD/MM/YYYY"
+	/**
+	 * Function to format the date into "DD/MM/YYYY" format.
+	 * @param {Date} date - Date object to be formatted
+	 * @returns {string} Formatted date string
+	 */
 	function formatDate(date) {
 		const day = date.getDate().toString().padStart(2, '0');
 		const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -18,6 +28,10 @@ const Form = ({ onSubmit }) => {
 		return `${day}/${month}/${year}`;
 	}
 
+	/**
+	 * Handles form submission.
+	 * @param {Event} e - Form submit event
+	 */
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
@@ -29,8 +43,8 @@ const Form = ({ onSubmit }) => {
 			setTitle('');
 			setAuthor('');
 			setContent('');
-			setCreated(formatDate(new Date())); // Actualizar la fecha al formato deseado después de enviar el formulario
-			setErrorMessage('');
+			setCreated(formatDate(new Date()));
+
 			if (typeof onSubmit === 'function') {
 				onSubmit();
 			}
@@ -39,7 +53,7 @@ const Form = ({ onSubmit }) => {
 			setErrorMessage(error.message);
 		}
 	};
-
+	// Render the form UI
 	return (
 		<div className="flex w-full flex-col justify-center items-center">
 			<h2 className="text-2xl mb-4">Agregar nueva entrada</h2>
