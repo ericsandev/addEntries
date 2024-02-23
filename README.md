@@ -41,3 +41,11 @@ $ npm install
 # to run after install all the packages
 $ npm start
 ```
+
+## Backend
+
+Run the next command to init
+```bash
+cd backend
+node index.js
+```
