@@ -29,7 +29,7 @@ Add entries for mini blog
 To clone this project write in the console:
 
 ```bash
-$ git clone https://github.com/ericsandev/---.git
+$ git clone https://github.com/ericsandev/addEntries.git
 ```
 
 And if you successfully cloned and all the requirements open the frontend file and run in the console:
